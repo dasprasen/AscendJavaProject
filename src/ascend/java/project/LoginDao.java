@@ -1,9 +1,9 @@
 package ascend.java.project;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class LoginDao {
 
@@ -11,9 +11,11 @@ public class LoginDao {
 	{
 	    String userName = loginBean.getUserName();
 	    String password = loginBean.getPassword();
+	    PasswordEncryption passwordEncryption = new PasswordEncryption();
+		//password=passwordEncryption.encrypt(password);
 	 
 	    Connection con = null;
-	    Statement statement = null;
+	    PreparedStatement statement = null;
 	    ResultSet resultSet = null;
 	 
 	    String userNameDB = "";
@@ -23,18 +25,21 @@ public class LoginDao {
 	    try
 	    {
 	        con = DatabaseConnection.getConnection();
-	        statement = con.createStatement();
-	        resultSet = statement.executeQuery("select username,password,role from users");
+	        String query="select username,password,role from users where userName=?";
+	        statement=con.prepareStatement(query);
+	        statement.setString(1, userName);
+	        resultSet = statement.executeQuery();
 	 
 	        while(resultSet.next())
 	        {
 	            userNameDB = resultSet.getString("username");
 	            passwordDB = resultSet.getString("password");
+	            passwordDB=passwordEncryption.decrypt(passwordDB);
 	            roleDB = resultSet.getString("role");
 	 
 	            if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB.equals("admin"))
 	            return "Admin_Role";
-	            else if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB.equals("user"))
+	            else if(userName.equals(userNameDB) && password.equals(passwordDB) && roleDB.equals("users"))
 	            return "User_Role";
 	        }
 	    }

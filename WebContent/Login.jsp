@@ -22,6 +22,7 @@
 	        <tr>
 	        <td></td>
 	        <td><input type="submit" value="Login"></input><input type="reset" value="Reset"></input></td>
+	        <td><a href="JSP/Registration.jsp">Click here to Register</a></td>
 	        </tr>
         </table>
         </form>

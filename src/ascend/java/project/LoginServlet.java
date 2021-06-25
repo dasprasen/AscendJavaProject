@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 	            HttpSession session = request.getSession(); //Creating a session
 	            session.setAttribute("Admin", userName); //setting session attribute
 	            request.setAttribute("userName", userName);
-	            request.getRequestDispatcher("/JSP/Admin.jsp").forward(request, response);
+	            request.getRequestDispatcher("Admin.jsp").forward(request, response);
 	        }
 	        else if(userValidate.equals("User_Role"))
 	        {
@@ -64,12 +64,12 @@ public class LoginServlet extends HttpServlet {
 	            session.setMaxInactiveInterval(10*60);
 	            session.setAttribute("User", userName);
 	            request.setAttribute("userName", userName);
-	            request.getRequestDispatcher("/JSP/User.jsp").forward(request, response);
+	            request.getRequestDispatcher("User.jsp").forward(request, response);
 	        }
 	        else
 	        {
 	            request.setAttribute("errMessage", userValidate);
-	            request.getRequestDispatcher("/JSP/Login.jsp").forward(request, response);
+	            request.getRequestDispatcher("Login.jsp").forward(request, response);
 	        }
 	    }
 	    catch (IOException e1)
