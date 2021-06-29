@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.password.PasswordEncryptor;
+
 public class LoginDao {
 
 	public String authenticateUser(LoginBean loginBean) {
 		String userName = loginBean.getUserName();
 		String password = loginBean.getPassword();
-		PasswordEncryption passwordEncryption = new PasswordEncryption();
-
+		PasswordEncryptor encryptor = new BasicPasswordEncryptor();
 		Connection con = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -29,12 +31,13 @@ public class LoginDao {
 			while (resultSet.next()) {
 				userNameDB = resultSet.getString("username");
 				passwordDB = resultSet.getString("password");
-				passwordDB = passwordEncryption.decrypt(passwordDB);
 				roleDB = resultSet.getString("role");
 
-				if (userName.equals(userNameDB) && password.equals(passwordDB) && roleDB.equals("admin"))
+				if (userName.equals(userNameDB) && encryptor.checkPassword(password, passwordDB)
+						&& roleDB.equals("admin"))
 					return "Admin_Role";
-				else if (userName.equals(userNameDB) && password.equals(passwordDB) && roleDB.equals("users"))
+				else if (userName.equals(userNameDB) && encryptor.checkPassword(password, passwordDB)
+						&& roleDB.equals("users"))
 					return "User_Role";
 			}
 		} catch (Exception e) {

@@ -45,6 +45,10 @@ public class RegisterServlet extends HttpServlet {
 		String firstName = request.getParameter("firstname");
 		String lastName = request.getParameter("lastname");
 		String password = request.getParameter("password");
+		String age = request.getParameter("age");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
+
 		UserIDGenerator userIDGenerator = new UserIDGenerator();
 		String userName = userIDGenerator.getUserId(firstName, lastName);
 		String successMessage = "You are successfully registered and your Username is " + userName;
@@ -54,6 +58,9 @@ public class RegisterServlet extends HttpServlet {
 		registerBean.setLastName(lastName);
 		registerBean.setUserName(userName);
 		registerBean.setPassword(password);
+		registerBean.setAge(age);
+		registerBean.setPhone(phone);
+		registerBean.setEmail(email);
 
 		RegisterDao registerDao = new RegisterDao();
 		String userRegistered = registerDao.registerUser(registerBean);

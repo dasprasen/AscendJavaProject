@@ -53,8 +53,8 @@ public class LoginServlet extends HttpServlet {
 			String userValidate = loginDao.authenticateUser(loginBean);
 
 			if (userValidate.equals("Admin_Role")) {
-				HttpSession session = request.getSession(); // Creating a session
-				session.setAttribute("Admin", userName); // setting session attribute
+				HttpSession session = request.getSession();
+				session.setAttribute("Admin", userName);
 				request.setAttribute("userName", userName);
 				request.getRequestDispatcher("Admin.jsp").forward(request, response);
 			} else if (userValidate.equals("User_Role")) {
