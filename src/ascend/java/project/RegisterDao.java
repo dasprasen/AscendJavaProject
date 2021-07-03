@@ -14,7 +14,7 @@ public class RegisterDao {
 		String firstName = registerBean.getFirstName();
 		String lastName = registerBean.getLastName();
 		String password = registerBean.getPassword();
-		int age = Integer.parseInt(registerBean.getAge());
+		int age = registerBean.getAge();
 		String phone = registerBean.getPhone();
 		String email = registerBean.getEmail();
 		try {
@@ -50,19 +50,22 @@ public class RegisterDao {
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
+		int count = 0;
 		try {
+			if (userName.length() == 8) {
+				userName = userName.substring(0, 7);
+			}
 			con = DatabaseConnection.getConnection();
-			String query = "Select * from users where username like '" + userName + "%'";
+			String query = "Select count(*) from users where username like '" + userName + "%'";
 			preparedStatement = con.prepareStatement(query);
-			// preparedStatement.setString(1, userName);
 			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
-				return 1;
+				count = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return 0;
+		return count;
 	}
 }

@@ -20,7 +20,7 @@
 		String query = "select username,firstname,lastname,age,phone,email from users where username=?";
 		statement = con.prepareStatement(query);
 		String uname=session.getAttribute("User").toString();
-		//String uname=request.getParameter("username");
+		//String uname=request.getAttribute("username");
 		statement.setString(1, uname);
 		resultSet = statement.executeQuery();
 		if (resultSet.next()) {
@@ -42,10 +42,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>User Page</title>
+<title>User Home Page</title>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+form {border: 3px solid #f1f1f1;}
+
+.container {
+  padding: 8px;
+}
+
+input[type=text], input[type=number], input[type=email] {
+  width: 98%;
+  padding: 13px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+.updatebutton {
+  background-color: #04AA6D;
+  color:white;
+  padding: 14px 90px;
+  margin: 8px 8px;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  background-color: #24a0ed;
+  color: white;
+  padding: 10px 18px;
+  margin: 40px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+</style>
 </head>
 <body>
-    <center><h2>User's Home</h2></center>
+<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet?userName=<%=request.getAttribute("userName")%>">Logout</a></div>
+    <center><h1>User's Home</h1></center>
     <form name="form" action="<%=request.getContextPath()%>/UpdateServlet" method="post">
     <c:if test="${not empty successMessage}">
 		    <div style="color:green;text-align: center">
@@ -53,42 +90,29 @@
 		   	</div>
 	   			<c:set var="successMessage" value="" scope="session"/>
 		</c:if>
-        <table align="center">
         <c:forEach var='users' items="${userInfo }">
-			 <tr>
-		         <td>Username</td>
-		         <td><input type="text" readonly="readonly" name="username" value="${users.username}"/></td>
-	         </tr>
-	         <tr>
-		         <td>First Name</td>
-		         <td><input type="text" readonly="readonly" name="firstname" value="${users.firstname}" /></td>
-	         </tr>
-	         <tr>
-		         <td>Last Name</td>
-		         <td><input type="text" readonly="readonly" name="lastname" value="${users.lastname}"/></td>
-	         </tr>
-	          <tr>
-		         <td>Age</td>
-		         <td><input type="number" required name="age" min="10" max="95" value="${users.age}"/></td>
-	         </tr>
-	         <tr>
-		         <td>Phone</td>
-		         <td><input type="text" required name="phone" pattern="[6789][0-9]{9}" value="${users.phone}"/></td>
-	         </tr>
-	         <tr>
-		         <td>Email Address</td>
-		         <td><input type="email" required name="email" value="${users.email}" /></td>
-	         </tr>
+        	<div class="container">
+        		<label for="username"><b>Username</b></label>
+		          <input type="text" readonly="readonly" name="username" value="${users.username}"/> 
+	          
+		          <label for="firstname"><b>First Name</b></label>
+		          <input type="text" readonly="readonly" name="firstname" value="${users.firstname}" /> 
+	          
+		          <label for="lastname"><b>Last Name</b></label>
+		          <input type="text" readonly="readonly" name="lastname" value="${users.lastname}"/> 
+	          
+		          <label for="age"><b>Age</b></label>
+		          <input type="number" required name="age" min="10" max="95" value="${users.age}"/> 
+	          
+		          <label for="phone"><b>Phone</b></label>
+		          <input type="text" required name="phone" pattern="[6789][0-9]{9}" value="${users.phone}"/> 
+	          
+		          <label for="email"><b>Email Address</b></label>
+		          <input type="email" required name="email" value="${users.email}" /> 
+        	</div>
 		</c:forEach>
-		<tr>
-         	<td><%=(session.getAttribute("errMessage") == null) ? "": session.getAttribute("errMessage")%></td>
-         </tr>
-		<tr>
-         <td><input type="submit" value="Update"></input></td>
-         </tr>
-        </table>
+         <%=(session.getAttribute("errMessage") == null) ? "": session.getAttribute("errMessage")%>
+         <button type="submit" value="Update" class="updatebutton" name="Update">Update</button>
     </form>
-    <div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></div>
- 
 </body>
 </html>

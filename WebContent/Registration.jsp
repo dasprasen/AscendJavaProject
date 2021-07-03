@@ -7,6 +7,51 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Registration Page</title>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+form {border: 3px solid #f1f1f1;}
+
+.container {
+  padding: 8px;
+}
+
+input[type=text], input[type=password], input[type=number], input[type=email] {
+  width: 98%;
+  padding: 13px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+.registerbutton {
+  background-color: #555555;
+  color:white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+
+button {
+  background-color: #24a0ed;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.registerbutton, .loginbutton {
+  float: left;
+  width: 50%;
+}
+
+</style>
 </head>
 <body>
     <form name="form" action="<%=request.getContextPath()%>/RegisterServlet" method="post">
@@ -16,44 +61,33 @@
 		   	</div>
 	   			<c:set var="successMessage" value="" scope="session"/>
 		</c:if>
-        <table align="center">
-         <tr>
-	         <td>First Name</td>
-	         <td><input type="text" name="firstname" required/></td>
-         </tr>
-         <tr>
-	         <td>Last Name</td>
-	         <td><input type="text" name="lastname" required/></td>
-         </tr>
-          <tr>
-	         <td>Age</td>
-	         <td><input type="number" name="age" min="10" max="95" required/></td>
-         </tr>
-         <tr>
-	         <td>Phone</td>
-	         <td><input type="text" name="phone" required pattern="[6789][0-9]{9}"/></td>
-         </tr>
-         <tr>
-	         <td>Email Address</td>
-	         <td><input type="email" name="email" required/></td>
-         </tr>
-          <tr>
-	         <td>Password</td>
-	         <td><input type="password" name="password" id="password" required onChange="onChange()"/></td>
-         </tr>
-         <tr>
-	         <td>Confirm Password</td>
-	         <td><input type="password" name="conpassword" id="password" required onChange="onChange()"/></td>
-         </tr>
-         <tr>
-         	<td><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></td>
-         </tr>
-         <tr>
-         <td><input type="submit" value="Register"></input></td>
-         <td><input type="reset" value="Reset"></input></td> 
-         <td><a href="Login.jsp">Click here to Login</a></td>
-         </tr>
-        </table>
+		<div class="container">
+		     <label for="firstname"><b>First Name</b></label>
+		     <input type="text" placeholder="Enter Firstname" name="firstname" required/>
+	             
+			  <label for="lastname"><b>Last Name</b></label>
+		      <input type="text" placeholder="Enter Lastname" name="lastname" required/>
+	     
+		      <label for="age"><b>Age</b></label>
+		      <input type="number" name="age" placeholder="Enter Age" min="10" max="95" required/>
+	        
+		      <label for="phone"><b>Phone</b></label>
+		      <input type="text" name="phone" placeholder="Enter Phone Number" required pattern="[6789][0-9]{9}"/>
+	       
+		      <label for="email"><b>Email Address</b></label>
+		      <input type="email" name="email" placeholder="Enter Email Address" required/>
+	       
+			  <label for="password"><b>Password</b></label>	         
+			  <input type="password" name="password" id="password" placeholder="Enter the password" required onChange="onChange()"/>
+			  
+			  <label for="conpassword"><b>Confirm Password</b></label>
+		      <input type="password" name="conpassword" placeholder="Enter the confirm password" id="password" required onChange="onChange()"/>
+	         <%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%>
+	        <div class="clearfix">
+	    	 <button type="submit" value="Register" class="registerbutton" name="register">Register</button>
+	         <button type="button" class="loginbutton" onclick="location.href ='<%=request.getContextPath()%>/Login.jsp'" >Click here to Login</button>
+	    	</div>
+		</div> 
     </form>
     <script>
     function onChange() {

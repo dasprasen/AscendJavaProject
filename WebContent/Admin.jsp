@@ -42,49 +42,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Admin Page</title>
+<title>Admin Home Page</title>
 </head>
 <body>
-<script>
-function downloadCSV(csv, filename) {
-    var csvFile;
-    var downloadLink;
-    // CSV file
-    csvFile = new Blob([csv], {type: "text/csv"});
-    console.log(csvFile);
-    // Download link
-    downloadLink = document.createElement("a");
-    console.log(downloadLink);
-    // File name
-    downloadLink.download = filename;
-    // Create a link to the file
-    downloadLink.href = window.URL.createObjectURL(csvFile);
-    // Hide download link
-    downloadLink.style.display = "none";
-    // Add the link to DOM
-    document.body.appendChild(downloadLink);
-    // Click download link
-    console.log(downloadLink);
-    downloadLink.click();
-}
-function exportTableToCSV(filename) {
-    var csv = [];
-    var rows = document.querySelectorAll("table tr");
-    console.log(rows);
-    for (var i = 0; i < rows.length; i++) {
-        var row = [], cols = rows[i].querySelectorAll("td, th");
-        
-        for (var j = 0; j < cols.length; j++) 
-            row.push(cols[j].innerText);
-        
-        csv.push(row.join(","));        
-    }
-    console.log(cols);
-    console.log(csv);
-    // Download CSV file
-    downloadCSV(csv.join("\n"), filename);
-}
-</script>
 <style>
 .center {
   margin-left: auto;
@@ -96,7 +56,7 @@ button {
 }
 </style>
 <center><h2>Admin's Home</h2></center>
-<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a></div>
+<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet?userName=<%=request.getAttribute("userName")%>">Logout</a></div>
 <h3 style="text-align:center">Users List</h3>
 	<table class="center" border="1" cellpadding="2" cellspacing="2">
 		<tr>
@@ -120,8 +80,8 @@ button {
 			</tr>
 		</c:forEach>
 	</table>
-	<button onclick="exportTableToCSV('users.csv')">Download Users Data</button>
-	<form action="<%=request.getContextPath()%>/DataServlet" method="post" enctype="multipart/form-data">
+	<div style="text-align: right"><a href="<%=request.getContextPath()%>/DownloadCSVServlet">Download the Data</a></div>
+	<form action="<%=request.getContextPath()%>/ImportServlet" method="post" enctype="multipart/form-data">
 	    <input name="filename" type="file">
 	    <input type="submit" value="Import">
    </form>

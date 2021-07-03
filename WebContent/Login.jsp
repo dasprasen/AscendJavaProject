@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login Page</title>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
@@ -31,11 +31,6 @@ button:hover {
 
 .regbutton {
   background-color: #555555;
-  color:white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
 }
 
 .imgcontainer {
@@ -43,7 +38,7 @@ button:hover {
   margin: 24px 0 12px 0;
 }
 
-img.avatar {
+.avatar {
   width: 17%;
   border-radius: 50%;
 }
@@ -54,23 +49,6 @@ img.avatar {
 .regbutton, .loginbutton {
   float: left;
   width: 50%;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
-  }
-  .cancelbtn {
-     width: 100%;
-  }
 }
 </style>
 </head>

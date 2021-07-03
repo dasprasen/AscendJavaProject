@@ -1,6 +1,8 @@
 package ascend.java.project;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,9 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
+
+	private final static Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -53,25 +58,28 @@ public class LoginServlet extends HttpServlet {
 			String userValidate = loginDao.authenticateUser(loginBean);
 
 			if (userValidate.equals("Admin_Role")) {
+				LoginServlet.LOGGER.log(Level.INFO, userName + " " + "Admin Logged in");
 				HttpSession session = request.getSession();
 				session.setAttribute("Admin", userName);
 				request.setAttribute("userName", userName);
 				request.getRequestDispatcher("Admin.jsp").forward(request, response);
 			} else if (userValidate.equals("User_Role")) {
+				LoginServlet.LOGGER.log(Level.INFO, userName + " " + "User Logged in");
 				HttpSession session = request.getSession();
 				session.setMaxInactiveInterval(10 * 60);
 				session.setAttribute("User", userName);
 				request.setAttribute("userName", userName);
 				request.getRequestDispatcher("User.jsp").forward(request, response);
 			} else {
+				LoginServlet.LOGGER.log(Level.WARNING, userValidate);
 				HttpSession session = request.getSession();
 				session.setAttribute("errMessage", userValidate);
 				request.getRequestDispatcher("Login.jsp").forward(request, response);
 			}
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			LoginServlet.LOGGER.log(Level.WARNING, userName, e1.getMessage());
 		} catch (Exception e2) {
-			e2.printStackTrace();
+			LoginServlet.LOGGER.log(Level.WARNING, userName, e2.getMessage());
 		}
 	}
 

@@ -1,6 +1,8 @@
 package ascend.java.project;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private final static Logger LOGGER = Logger.getLogger(LogoutServlet.class.getName());
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -33,6 +37,7 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(false); // Fetch session object
+		LogoutServlet.LOGGER.log(Level.INFO, request.getParameter("userName") + " Logged Out Successfully");
 
 		if (session != null) // If session is not null
 		{

@@ -1,6 +1,8 @@
 package ascend.java.project;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,9 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
+
+	private final static Logger LOGGER = Logger.getLogger(RegisterServlet.class.getName());
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -45,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
 		String firstName = request.getParameter("firstname");
 		String lastName = request.getParameter("lastname");
 		String password = request.getParameter("password");
-		String age = request.getParameter("age");
+		int age = Integer.parseInt(request.getParameter("age"));
 		String phone = request.getParameter("phone");
 		String email = request.getParameter("email");
 
@@ -67,10 +72,12 @@ public class RegisterServlet extends HttpServlet {
 		if (userRegistered.equals("SUCCESS")) {
 			HttpSession session = request.getSession();
 			session.setAttribute("successMessage", successMessage);
+			RegisterServlet.LOGGER.log(Level.INFO, userName + " " + successMessage);
 			response.sendRedirect(request.getContextPath() + "/Registration.jsp");
 		} else {
 			HttpSession session = request.getSession();
 			session.setAttribute("errMessage", userRegistered);
+			RegisterServlet.LOGGER.log(Level.INFO, userName + " " + userRegistered);
 			response.sendRedirect(request.getContextPath() + "/Registration.jsp");
 		}
 	}

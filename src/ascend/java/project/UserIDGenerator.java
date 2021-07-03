@@ -1,9 +1,5 @@
 package ascend.java.project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Random;
 
 public class UserIDGenerator {
@@ -13,7 +9,6 @@ public class UserIDGenerator {
 	public String getUserId(String firstName, String lastName) {
 
 		String userName = "";
-		addCounter();
 		if (lastName.length() >= 7) {
 			userName = firstName.substring(0, 1) + lastName.substring(0, 7);
 		} else {
@@ -21,70 +16,35 @@ public class UserIDGenerator {
 		}
 
 		RegisterDao registerDao = new RegisterDao();
-		int status = registerDao.searchByUsername(userName);
-		if (status == 1) {
-			if (counter > 0 && counter <= 9) {
+		int count = registerDao.searchByUsername(userName);
+		if (count != 0) {
+			if (count > 0 && count <= 9) {
 				if (userName.length() == 8) {
-					userName = userName.substring(0, userName.length() - 1) + counter;
+					userName = userName.substring(0, userName.length() - 1) + count;
 					return userName;
 				} else {
-					userName = userName.substring(0) + counter;
+					userName = userName.substring(0) + count;
 					return userName;
 				}
-			} else if (counter >= 10 && counter < 100) {
+			} else if (count > 9 && count < 99) {
 				if (userName.length() >= 7) {
-					userName = userName.substring(0, userName.length() - 2) + counter;
+					userName = userName.substring(0, userName.length() - 2) + count;
 					return userName;
 				} else {
-					userName = userName.substring(0) + counter;
+					userName = userName.substring(0) + count;
 					return userName;
 				}
 			} else {
 				if (userName.length() >= 5) {
-					userName = userName.substring(0, userName.length() - 3) + counter;
+					userName = userName.substring(0, userName.length() - 3) + count;
 					return userName;
 				} else {
-					userName = userName.substring(0) + counter;
+					userName = userName.substring(0) + count;
 					return userName;
 				}
 			}
 		}
 		return userName;
-	}
-
-	private void addCounter() {
-		counter = getCounter();
-		Connection con = null;
-		PreparedStatement statement = null;
-		try {
-			con = DatabaseConnection.getConnection();
-			String query = "update trackuserid set counter=" + counter;
-			statement = con.prepareStatement(query);
-			int status = statement.executeUpdate();
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private int getCounter() {
-		// TODO Auto-generated method stub
-		Connection con = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		try {
-			con = DatabaseConnection.getConnection();
-			String query = "select counter+1 from trackuserid";
-			statement = con.prepareStatement(query);
-			resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				counter = resultSet.getInt(1);
-			}
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return counter;
 	}
 
 	public String getRandomPassword() {
