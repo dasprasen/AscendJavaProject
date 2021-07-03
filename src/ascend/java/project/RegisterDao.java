@@ -50,17 +50,30 @@ public class RegisterDao {
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
+		String query;
 		int count = 0;
 		try {
 			if (userName.length() == 8) {
 				userName = userName.substring(0, 7);
 			}
 			con = DatabaseConnection.getConnection();
-			String query = "Select count(*) from users where username like '" + userName + "%'";
+			query = "Select count(*) from users where username like '" + userName + "%'";
 			preparedStatement = con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				count = rs.getInt(1);
+				con.close();
+			}
+			if (count >= 10) {
+				userName = userName.substring(0, 6);
+				con = DatabaseConnection.getConnection();
+				query = "Select count(*) from users where username like '" + userName + "%'";
+				preparedStatement = con.prepareStatement(query);
+				rs = preparedStatement.executeQuery();
+				if (rs.next()) {
+					count = rs.getInt(1);
+					con.close();
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
