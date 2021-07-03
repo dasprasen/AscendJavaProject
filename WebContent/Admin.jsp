@@ -56,7 +56,7 @@ button {
 }
 </style>
 <center><h2>Admin's Home</h2></center>
-<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet?userName=<%=request.getAttribute("userName")%>">Logout</a></div>
+<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet?userName=<%=session.getAttribute("Admin")%>">Logout</a></div>
 <h3 style="text-align:center">Users List</h3>
 	<table class="center" border="1" cellpadding="2" cellspacing="2">
 		<tr>

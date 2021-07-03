@@ -84,7 +84,7 @@ public class DownloadCSVServlet extends HttpServlet {
 				stringBuilder.append("\r\n");
 			}
 
-			printWriter.write(stringBuilder.toString());
+			printWriter.write(stringBuilder.toString());// becoz write() expects string
 			printWriter.close();
 			response.sendRedirect("Admin.jsp");
 		} catch (SQLException e) {

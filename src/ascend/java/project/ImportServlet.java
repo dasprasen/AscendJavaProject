@@ -63,7 +63,7 @@ public class ImportServlet extends HttpServlet {
 		try {
 			// parsing a CSV file into BufferedReader class constructor
 			BufferedReader br = new BufferedReader(new FileReader(absolute));
-			br.readLine();
+			br.readLine();// to skip header(first line)
 			while ((line = br.readLine()) != null) {
 				String[] user = line.split(splitBy);
 				UserIDGenerator userIDGenerator = new UserIDGenerator();

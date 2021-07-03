@@ -81,7 +81,7 @@ a {
 </style>
 </head>
 <body>
-<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet?userName=<%=request.getAttribute("userName")%>">Logout</a></div>
+<div style="text-align: right"><a href="<%=request.getContextPath()%>/LogoutServlet?userName=<%=session.getAttribute("User")%>">Logout</a></div>
     <center><h1>User's Home</h1></center>
     <form name="form" action="<%=request.getContextPath()%>/UpdateServlet" method="post">
     <c:if test="${not empty successMessage}">
